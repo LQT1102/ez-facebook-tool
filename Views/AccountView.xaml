@@ -1,0 +1,90 @@
+<Page x:Class="EZ.FACEBOOK.TOOL.Views.AccountView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="Quản lý tài khoản">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Tiêu đề -->
+            <TextBlock Text="Nhập tài khoản" 
+                     FontSize="16" 
+                     FontWeight="Bold"
+                     Margin="0,0,0,10"/>
+
+            <!-- Textbox nhập tài khoản -->
+            <TextBox Grid.Row="1"
+                     Text="{Binding AccountsText, UpdateSourceTrigger=PropertyChanged}"
+                     Height="150"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     Margin="0,0,0,10">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Resources>
+                            <VisualBrush x:Key="PlaceholderBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                                <VisualBrush.Visual>
+                                    <TextBlock Text="Nhập tài khoản theo định dạng: taikhoan|matkhau&#x0a;Mỗi dòng 1 tài khoản" 
+                                             FontStyle="Italic"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="{StaticResource PlaceholderBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="2" 
+                      Orientation="Horizontal"
+                      Margin="0,0,0,20">
+                <Button Content="Import" 
+                        Command="{Binding ImportAccountsCommand}"
+                        Width="100"
+                        Height="30"
+                        Margin="0,0,10,0"/>
+                <Button Content="Clear" 
+                        Command="{Binding ClearAccountsCommand}"
+                        Width="100"
+                        Height="30"/>
+            </StackPanel>
+
+            <!-- Danh sách tài khoản -->
+            <DataGrid Grid.Row="3"
+                      ItemsSource="{Binding Accounts}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Chọn" 
+                                          Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="60"/>
+                    <DataGridTextColumn Header="Tài khoản" 
+                                      Binding="{Binding Username}"
+                                      Width="*"/>
+                    <DataGridTextColumn Header="Mật khẩu" 
+                                      Binding="{Binding Password}"
+                                      Width="*"/>
+                    <DataGridTextColumn Header="Trạng thái" 
+                                      Binding="{Binding Status}"
+                                      Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </ScrollViewer>
+</Page> 
